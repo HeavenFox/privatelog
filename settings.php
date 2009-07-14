@@ -7,6 +7,7 @@ class Settings
 		'host' => 'localhost',
 		'username' => 'root',
 		'password' => 'heavenfox',
+		'database' => 'privatelog',
 		'prefix' => 'pl_'
 	);
 	

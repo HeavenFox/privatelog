@@ -10,6 +10,7 @@ require_once 'init.php';
 
 require_once ROOT. 'settings.php';
 require_once ROOT. 'classes/Session.php';
+require_once ROOT. 'classes/IO.php';
 require_once ROOT. 'classes/Cookies.php';
 require_once ROOT. 'classes/Template.php';
 require_once ROOT. 'classes/crypt/Crypt.php';
@@ -31,7 +32,10 @@ $modules = array(
 
 foreach ($modules as $v)
 {
-	@include ROOT . 'modules/' . $v . '_autoload.php';
+	if (file_exists(ROOT . 'modules/' . $v . '_autoload.php'))
+	{
+		require ROOT . 'modules/' . $v . '_autoload.php';
+	}
 }
 
 if (!$act)

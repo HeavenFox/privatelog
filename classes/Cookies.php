@@ -18,7 +18,7 @@ class Cookies
 	{
 		$crypt = Crypt::Get();
 		
-		setcookie($name, $crypt->encrypt($value, Settings::$Security['cookie_salt'], time() + $expire);
+		setcookie($name, $crypt->encrypt($value, Settings::$Security['cookie_salt'], time() + $expire));
 	}
 }
 ?>

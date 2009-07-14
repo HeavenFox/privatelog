@@ -49,12 +49,12 @@ class MySQLDriver
 			}
 			
 			// MySQL 4.1
-			$this->simple_query("SET collation_connection = utf8_general_ci");
-			$this->simple_query("SET NAMES utf8");
-			$this->simple_query("SET character_set_connection=utf8, character_set_results=utf8, character_set_client=binary;");
+			$this->simpleQuery("SET collation_connection = utf8_general_ci");
+			$this->simpleQuery("SET NAMES utf8");
+			$this->simpleQuery("SET character_set_connection=utf8, character_set_results=utf8, character_set_client=binary;");
 			
 			// MySQL 5.0
-			$this->simple_query("SET sql_mode=''");
+			$this->simpleQuery("SET sql_mode=''");
 			
 			// Reset Query Count
 			$this->queryCount = 0;
