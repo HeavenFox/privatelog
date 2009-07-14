@@ -108,9 +108,17 @@ class MySQLDriver
 	 * Get database result by MySQL Fetch Array
 	 * @return array
 	 */
-	public function fetch()
+	public function fetch($type = 'both')
 	{
-		return @mysql_fetch_array($this->result);
+		switch ($type)
+		{
+		case 'assoc':
+			return @mysql_fetch_array($this->result, MYSQL_ASSOC);
+		case 'num':
+			return @mysql_fetch_array($this->result, MYSQL_NUM);
+		default:
+			return @mysql_fetch_array($this->result);
+		}
 	}
 	
 	/**

@@ -21,7 +21,7 @@ session_start();
 //------------------------------------------
 // LOAD MODULE
 //------------------------------------------
-$act = $_REQUEST['act'];
+$act = IO::Inc('act');
 
 $modules = array(
 	'login',

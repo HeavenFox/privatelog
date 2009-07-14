@@ -10,6 +10,7 @@
 </head>
 <body>
 <div id="loading">Loading...</div>
+<div id="container">
 <div id="header">
 	<h1><?php echo Settings::$Site['name']; ?></h1>
 </div>
@@ -25,19 +26,17 @@
 	<?php
 	endif;
 	?>
-	<div id="post-1" class="post">
-		<h1>A Sample Post</h1>
-		<div class="postcontent">something</div>
+	
+		
+		<div id="next"><a href="">Older Posts</a></div>
 	</div>
-	<div id="nav">
-		<div id="prev"><a href="">Older Posts</a></div>
-		<div id="next"><a href="">Newer Posts</a></div>
-	</div>
+	<div class="clear" />
 </div>
 <div id="footer">
 	<a href="index.php?act=write">Write</a> -
 	<a href="index.php?act=viewlog">View Admin Log</a> -
 	<a href="index.php?act=login&do=logout">Logout</a>
+</div>
 </div>
 </body>
 </html>

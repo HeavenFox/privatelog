@@ -1,8 +1,15 @@
+#container
+{
+	width: 720px;
+	margin: 0 auto 0 auto;
+	padding: 0;
+}
+
 #header
 {
 	width: 720px;
 	margin: 0 auto 0 auto;
-	padding 0;
+	padding: 0;
 }
 
 #main
@@ -24,16 +31,12 @@
 
 #prev
 {
-	width: 50%;
-	display: inline;
-	text-align: left;
+	float: left;
 }
 
 #next
 {
-	width: 50%;
-	display: inline;
-	text-align: right;
+	float: right;
 }
 
 

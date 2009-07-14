@@ -1,5 +1,7 @@
 body
 {
+	margin: 0;
+	padding: 0;
 	background-color: #DBDBDB;
 	font: 12px Tahoma, Verdana, sans-serif;
 }
@@ -14,4 +16,10 @@ div.error {
 	border: 1px solid #d77;
 	background: #fcc;
 	padding: 2px;
+}
+
+.clear
+{
+	width: 0;
+	height: 0;
 }

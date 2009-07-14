@@ -44,6 +44,15 @@ class Post
 	public function generate()
 	{
 		$html = "<div id='post-{$this->id}' class='post'>";
+		$html .= $this->generateContent();
+		$html .= "</div>";
+		
+		return $html;
+	}
+	
+	public function generateContent()
+	{
+		$html = '';
 		if ($this->decryptable)
 		{
 			$html .= "
@@ -60,8 +69,6 @@ class Post
 			<input type='button' value='Submit' onclick='getContent({$this->id});' /></p>
 		</div>";
 		}
-		$html .= "</div>";
-		
 		return $html;
 	}
 	
