@@ -70,7 +70,10 @@ class MySQLDriver
 	 */
 	public function query($q, $param = false)
 	{
-		$q = preg_replace('/`(pb_)([a-zA-Z0-9]+)`/', $this->connParam['prefix'] . '\\2', $q);
+		if ($this->connParam['prefix'] != 'pl_')
+		{
+			$q = preg_replace('/`(pl_)([a-zA-Z0-9]+)`/', $this->connParam['prefix'] . '\\2', $q);
+		}
 		
 		$paramIndex = 0;
 		

@@ -12,8 +12,8 @@ class Database
     {
         if (self::$connection == null)
         {
-            require_once ROOT. 'dbsettings.php';
-            self::$connection = self::CreateConnection($CONFIG);
+            self::$connection = self::CreateConnection(Settings::$DB);
+            self::$connection->connect();
         }
         return self::$connection;
     }

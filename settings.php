@@ -24,7 +24,9 @@ class Settings
 	
 	// Site settings
 	static $Site = array(
-		'name' => 'A Private Log'
+		'name' => 'A Private Log',
+		// Entries per page
+		'entries' => 3
 	);
 }
 ?>

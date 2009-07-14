@@ -9,10 +9,21 @@
 <body>
 <div id="login">
 	<h1>Login</h1>
-    <form action="index.php?act=login&to=auth" method="post">
+<?php
+if (isset(Template::$Vars['error'])):
+?>
+<div class="error">
+	<?php
+	echo Template::$Vars['error'];
+	?>
+</div>
+<?php
+endif;
+?>
+    <form action="index.php" method="post">
     <div id="inputform">
     <p>Username: <input name="username" type="text" size="15" /></p>
-    <p>Password: <input name="password" type="text" size="15" /></p>
+    <p>Password: <input name="password" type="password" size="15" /></p>
     </div>
     <input name="submit" type="submit" value="Login" />
     </form>

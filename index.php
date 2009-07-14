@@ -18,14 +18,20 @@ require_once ROOT. 'classes/database/Database.php';
 session_start();
 
 //------------------------------------------
-// DO THE AUTH
+// LOAD MODULE
 //------------------------------------------
 $act = $_REQUEST['act'];
-if (!Session::Exist('username') || 
-	Session::Get('username') != Settings::$User['username'] || 
-	sha1(Session::Get('password')) != Settings::$User['password'])
+
+$modules = array(
+	'login',
+	'read',
+	'viewlog',
+	'write'
+);
+
+foreach ($modules as $v)
 {
-	$act = 'login';
+	@include ROOT . 'modules/' . $v . '_autoload.php';
 }
 
 if (!$act)
@@ -33,11 +39,9 @@ if (!$act)
 	$act = 'read';
 }
 
-//------------------------------------------
-// LOAD MODULE
-//------------------------------------------
-Template::$Name = $act;
 require_once ROOT . 'modules/' . $act . '.php';
+
+Template::$Name = $act;
 
 //------------------------------------------
 // OUTPUT

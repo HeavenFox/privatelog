@@ -8,3 +8,10 @@ div
 {
 	background-color: #FFFFFF;
 }
+
+div.error {
+	color: #200;
+	border: 1px solid #d77;
+	background: #fcc;
+	padding: 2px;
+}
