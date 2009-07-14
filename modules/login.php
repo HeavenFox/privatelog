@@ -5,3 +5,4 @@ case 'logout':
 	session_destroy();
 	break;
 }
+?>

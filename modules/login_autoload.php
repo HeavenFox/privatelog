@@ -2,7 +2,7 @@
 //------------------------------------------
 // DO THE AUTH
 //------------------------------------------
-if (!Session::Exist('username'))
+if (!Session::Exist('username') && !IO::Inc('username', 'POST'))
 {
 	$act = 'login';
 }

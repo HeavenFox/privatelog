@@ -4,31 +4,35 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" href="stylesheets/global.css" type="text/css" />
 <link rel="stylesheet" href="stylesheets/read.css" type="text/css" />
-<script type="text/javascript" src="scripts/jquery.js" />
-<script type="text/javascript" src="scripts/read.js" />
+<script type="text/javascript" src="scripts/jquery.js"></script>
+<script type="text/javascript" src="scripts/read.js"></script>
 <title><?php echo Settings::$Site['name']; ?></title>
 </head>
 <body>
-	<div id="loading">Loading...</div>
-	<div id="header">
-		<h1><?php echo Settings::$Site['name']; ?></h1>
-	</div>
+<div id="loading">Loading...</div>
+<div id="header">
+	<h1><?php echo Settings::$Site['name']; ?></h1>
+</div>
 <div id="main">
-<?php
-if (isset(Template::$Vars['error'])):
-?>
-<div class="error">
 	<?php
-	echo Template::$Vars['error'];
+	if (isset(Template::$Vars['error'])):
 	?>
-</div>
-<?php
-endif;
-?>
-<div id="nav">
-	<div id="prev"><a href="">Older Posts</a></div>
-	<div id="next"><a href="">Newer Posts</a></div>
-</div>
+	<div class="error">
+		<?php
+		echo Template::$Vars['error'];
+		?>
+	</div>
+	<?php
+	endif;
+	?>
+	<div id="post-1" class="post">
+		<h1>A Sample Post</h1>
+		<div class="postcontent">something</div>
+	</div>
+	<div id="nav">
+		<div id="prev"><a href="">Older Posts</a></div>
+		<div id="next"><a href="">Newer Posts</a></div>
+	</div>
 </div>
 <div id="footer">
 	<a href="index.php?act=write">Write</a> -
