@@ -10,6 +10,7 @@
 </head>
 <body>
 <div id="loading">Loading...</div>
+<div id="wrapper">
 <div id="container">
 <div id="header">
 	<h1><?php echo Settings::$Site['name']; ?></h1>
@@ -26,16 +27,18 @@
 	<?php
 	endif;
 	?>
-	
-		
-		<div id="next"><a href="">Older Posts</a></div>
-	</div>
-	<div class="clear" />
+	<?php
+	echo Template::$Vars['posts'];
+	?>
+	<div class="clear"></div>
 </div>
 <div id="footer">
+	<p>Read - 
 	<a href="index.php?act=write">Write</a> -
 	<a href="index.php?act=viewlog">View Admin Log</a> -
-	<a href="index.php?act=login&do=logout">Logout</a>
+	<a href="index.php?act=login&do=logout">Logout</a></p>
+	<p>Powered by Private Log. Theme by <a href='http://www.neoease.com/'>NeoEase</a></p>
+</div>
 </div>
 </div>
 </body>

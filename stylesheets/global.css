@@ -1,14 +1,15 @@
+*
+{
+	margin: 0;
+	padding: 0;
+}
+
 body
 {
 	margin: 0;
 	padding: 0;
 	background-color: #DBDBDB;
 	font: 12px Tahoma, Verdana, sans-serif;
-}
-
-div
-{
-	background-color: #FFFFFF;
 }
 
 div.error {
@@ -18,8 +19,7 @@ div.error {
 	padding: 2px;
 }
 
-.clear
+small
 {
-	width: 0;
-	height: 0;
+	font-size:10px;
 }

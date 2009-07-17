@@ -1,4 +1,8 @@
 <?php
+
+/**
+ * A Set of Posts that matches a certain condition
+ */
 class PostSet
 {
 	public $posts;
@@ -11,12 +15,12 @@ class PostSet
 	{
 		$db = Database::Get();
 		
-		$query = 'SELECT * FROM `pl_posts` WHERE';
+		$query = 'SELECT * FROM `pl_posts`';
 		
 		$attr = '';
 		
 		// ID?
-		if (isset($conditions['id']))
+		if (isset($conditions['id']) && $conditions['id'])
 		{
 			$query .= ' id = '. $conditions['id'];
 		}
@@ -33,9 +37,9 @@ class PostSet
 			}
 			
 			// Check if other pages exist
-			$db->query('SELECT COUNT(*) FROM `pl_posts` WHERE'. $attr);
+			$db->query('SELECT COUNT(*) FROM `pl_posts`'. ($attr == '' ? '' : ' WHERE'). $attr);
 			$count = $db->fetch();
-			$count = $count[0];
+			$count = intval($count[0]);
 			if ($count > $page * Settings::$Site['entries'])
 			{
 				$this->next = true;
@@ -43,9 +47,10 @@ class PostSet
 			
 			// Sort by
 			// @todo
-			$attr .= 'ORDER BY time DESC'
 			
+			$query .= ($attr == '' ? '' : ' WHERE');
 			$query .= $attr;
+			$query .= 'ORDER BY time DESC';
 			$query .= ' LIMIT '.($page-1)*Settings::$Site['entries'].','.Settings::$Site['entries'];
 		}
 		
@@ -54,8 +59,16 @@ class PostSet
 		while ($entry = $db->fetch('assoc'))
 		{
 			$postObj = new Post;
-			$postObj->fill($entry);
+			$postObj->fill($entry, true);
 			$this->posts[] = $postObj;
+		}
+	}
+	
+	public function decrypt($key)
+	{
+		foreach ($this->posts as $v)
+		{
+			$v->decrypt($key);
 		}
 	}
 	
@@ -81,9 +94,9 @@ class PostSet
 		if ($this->next)
 		{
 			$nextPage = $this->page + 1;
-			$html .= "<div id='prev'><a href='index.php?page={$nextPage}'>Plder Posts</a></div>";
+			$html .= "<div id='next'><a href='index.php?page={$nextPage}'>Older Posts</a></div>";
 		}
-		$html .= '</div>'
+		$html .= '</div>';
 		
 		return $html;
 	}

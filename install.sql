@@ -1,8 +1,8 @@
 CREATE TABLE  `pl_posts` (
  `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
- `title` VARCHAR(255) NOT NULL,
+ `title` VARCHAR(500) NOT NULL,
  `content` LONGTEXT NOT NULL,
- `time` DATETIME NOT NULL,
+ `time` INT NOT NULL,
  `weather` VARCHAR(20),
  `location` VARCHAR(40),
  `ip` VARCHAR(20),

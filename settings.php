@@ -14,20 +14,21 @@ class Settings
 	// User setting
 	static $User = array(
 		'username' => 'HeavenFox',
-		'password' => '' // SHA1ed
+		// SHA1ed password. d033e22ae348aeb5660fc2140aec35850c4da997 by default - admin being original text
+		'password' => 'd033e22ae348aeb5660fc2140aec35850c4da997'
 	);
 	
 	// Security setting
 	static $Security = array(
 		// Cookie salt. Just some random character. SET IT FOR SECURITY
-		'cookie_salt' => ''
+		'cookie_salt' => 'salt'
 	);
 	
 	// Site settings
 	static $Site = array(
 		'name' => 'A Private Log',
 		// Entries per page
-		'entries' => 3
+		'entries' => 2
 	);
 }
 ?>

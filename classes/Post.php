@@ -7,29 +7,46 @@ class Post
 	public $weather;
 	public $location;
 	public $ip;
+	public $time;
 	
 	public $key;
 	
 	public $decryptable;
 	
-	public function fill($params)
+	public $isCipher = false;
+	
+	public function fetch($id)
+	{
+		$db = Database::Get();
+		
+		$db->query("SELECT * FROM `pl_posts` WHERE id = {$id}");
+		
+		if ($db->rowCount())
+		{
+			$this->fill($db->fetch(),true);
+		}
+	}
+	
+	public function fill($params, $isCipher)
 	{
 		$this->id = $params['id'];
 		$this->title = $params['title'];
 		$this->content = $params['content'];
+		$this->time = $params['time'];
 		$this->weather = $params['weather'];
 		$this->location = $params['location'];
 		$this->key = $params['key'];
 		$this->ip = $params['ip'];
+		
+		$this->isCipher = $isCipher;
 	}
 	
-	public function decrypt($key = null)
+	public function decrypt($key)
 	{
-		if (!$key)
+		if (!$this->isCipher)
 		{
-			$key = Session::Get('password');
+			return;
 		}
-		
 		if (sha1($key) != $this->key)
 		{
 			return $this->decryptable = false;
@@ -39,6 +56,8 @@ class Post
 		
 		$this->title = $c->decrypt($this->title, $key);
 		$this->content = $c->decrypt($this->content, $key);
+		$this->decryptable = true;
+		$this->isCipher = false;
 	}
 	
 	public function generate()
@@ -56,13 +75,15 @@ class Post
 		if ($this->decryptable)
 		{
 			$html .= "
-		<h1 class='title'>{$this->title}</h1>
-		<div class='content'>{$this->content}</div>";
+		<h2>{$this->title}</h2>
+		<small>Date: ".date('l, M n, Y g:i:s A', $this->time). "  Weather: {$this->weather}</small>
+		<div class='content'>{$this->content}</div>
+		<div class='meta'>Location:{$this->location} (IP:{$this->ip}) <a href='index.php?act=write&do=edit&id={$this->id}'>Edit</a></div>";
 		}
 		else
 		{
 			$html .= "
-		<hi class='title'>Password Required</h1>
+		<h2>Password Required</h2>
 		<div class='content'>
 			<p>Sorry, your current password can not decrypt this entry.</p>
 			<p>Enter Password: <input type='password' id='passwordfield-{$this->id}' />
@@ -75,9 +96,18 @@ class Post
 	/**
 	 * @todo
 	 */
-	public function encrypt($key = null)
+	public function encrypt($key)
 	{
+		if ($this->isCipher)
+		{
+			return;
+		}
+		$c = Crypt::Get();
 		
+		$this->title = $c->encrypt($this->title, $key);
+		$this->content = $c->encrypt($this->content, $key);
+		
+		$this->isCipher = true;
 	}
 	
 	/**

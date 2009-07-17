@@ -19,7 +19,7 @@ class Crypt_mcrypt
 	public function decrypt($cipher, $key)
 	{
 		mcrypt_generic_init($this->mc, md5($key, true), md5('0', true));
-		$content = mdecrypt_generic($this->mc, base64_decode($cipher));
+		$content = trim(mdecrypt_generic($this->mc, base64_decode($cipher)),"\0");
 		mcrypt_generic_deinit($this->mc);
 		return $content;
 	}

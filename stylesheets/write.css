@@ -1,0 +1,39 @@
+#main #leftsec
+{
+	width: 700px;
+	float: left;
+}
+
+#main #leftsec #title
+{
+	width:100%;
+	font-family: Tahoma, Verdana;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+#main #rightsec
+{
+	width: 200px;
+	float: right;
+}
+
+#main h2
+{
+	font-size: 14px;
+}
+
+#main #rightsec div
+{
+	margin-bottom: 15px;
+	border: 1px dashed #888;
+	padding: 4px;
+}
+
+
+
+#main #rightsec #btnPost
+{
+	font-family: Tahoma, Verdana;
+	font-size: 20px;
+}
