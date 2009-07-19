@@ -7,6 +7,7 @@ CREATE TABLE  `pl_posts` (
  `location` VARCHAR(40),
  `ip` VARCHAR(20),
  `key` CHAR(40) NOT NULL,
+ `hint` VARCHAR(160),
  `algorithm` VARCHAR(5) NOT NULL,
  `mode` CHAR(3) NOT NULL,
  `iv` VARCHAR(32)
@@ -17,7 +18,7 @@ CREATE TABLE  `pl_adminlog` (
  `action` VARCHAR(200) NOT NULL,
  `pid` INT NOT NULL,
  `ip` VARCHAR(20),
- `time` DATETIME NOT NULL
+ `time` INT NOT NULL
 );
 
 CREATE TABLE  `pl_loginattempt` (
@@ -25,5 +26,5 @@ CREATE TABLE  `pl_loginattempt` (
  `username` VARCHAR(25) NOT NULL,
  `password` VARCHAR(40) NOT NULL,
  `ip` VARCHAR(20),
- `time` DATETIME NOT NULL
+ `time` INT NOT NULL
 );

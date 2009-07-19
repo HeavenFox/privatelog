@@ -28,6 +28,17 @@
 	endif;
 	?>
 	<?php
+	if (isset(Template::$Vars['message'])):
+	?>
+	<div class="message">
+		<?php
+		echo Template::$Vars['message'];
+		?>
+	</div>
+	<?php
+	endif;
+	?>
+	<?php
 	echo Template::$Vars['posts'];
 	?>
 	<div class="clear"></div>
@@ -37,7 +48,7 @@
 	<a href="index.php?act=write">Write</a> -
 	<a href="index.php?act=viewlog">View Admin Log</a> -
 	<a href="index.php?act=login&do=logout">Logout</a></p>
-	<p>Powered by Private Log. Theme by <a href='http://www.neoease.com/'>NeoEase</a></p>
+	<p>Powered by <a href="http://code.google.com/p/privatelog/">PrivateLog</a>. Theme by <a href='http://www.neoease.com/'>NeoEase</a></p>
 </div>
 </div>
 </div>

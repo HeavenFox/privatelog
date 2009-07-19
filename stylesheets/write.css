@@ -30,7 +30,10 @@
 	padding: 4px;
 }
 
-
+#time_content input
+{
+	width: 30px;
+}
 
 #main #rightsec #btnPost
 {

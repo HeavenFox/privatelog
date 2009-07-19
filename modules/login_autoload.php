@@ -18,6 +18,13 @@ else
 	{
 		$act = 'login';
 		Template::$Vars['error'] = 'Invalid username or password.';
+		session_destroy();
+		// Wrong login attempt or invalid cookie
+		$db = Database::Get();
+		$db->query('INSERT INTO `pl_loginattempt` VALUES (NULL,?,?,?,?)', array(Session::Get('username'),
+																				Session::Get('password'),
+																				IO::GetIP(),
+																				time()));
 	}
 }
 ?>

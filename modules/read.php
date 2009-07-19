@@ -14,7 +14,11 @@ case 'decrypt':
 	$toDecrypt = new Post();
 	$toDecrypt->fetch(IO::Inc('id'));
 	$toDecrypt->decrypt(IO::Inc('key'));
-	echo $toDecrypt->decryptable ? $toDecrypt->generateContent() : '';
+	if ($toDecrypt->decryptable)
+	{
+		Session::Set('postkey-'.IO::Inc('id'), IO::Inc('key'));
+		echo $toDecrypt->generateContent();
+	}
 	die();
 	break;
 // Ajax doesn't seem beautiful

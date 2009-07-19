@@ -10,6 +10,7 @@ class Post
 	public $time;
 	
 	public $key;
+	public $hint;
 	
 	public $decryptable;
 	
@@ -36,6 +37,7 @@ class Post
 		$this->weather = $params['weather'];
 		$this->location = $params['location'];
 		$this->key = $params['key'];
+		$this->hint = $params['hint'];
 		$this->ip = $params['ip'];
 		
 		$this->isCipher = $isCipher;
@@ -45,7 +47,7 @@ class Post
 	{
 		if (!$this->isCipher)
 		{
-			return;
+			return false;
 		}
 		if (sha1($key) != $this->key)
 		{
@@ -58,6 +60,7 @@ class Post
 		$this->content = $c->decrypt($this->content, $key);
 		$this->decryptable = true;
 		$this->isCipher = false;
+		return true;
 	}
 	
 	public function generate()
@@ -87,8 +90,9 @@ class Post
 		<div class='content'>
 			<p>Sorry, your current password can not decrypt this entry.</p>
 			<p>Enter Password: <input type='password' id='passwordfield-{$this->id}' />
-			<input type='button' value='Submit' onclick='getContent({$this->id});' /></p>
-		</div>";
+			<input type='button' value='Submit' onclick='getContent({$this->id});' /></p>".
+			($this->hint ? "<p>Forget your password? Here's a hint: {$this->hint}</p>" : "").
+		"</div>";
 		}
 		return $html;
 	}
@@ -107,15 +111,33 @@ class Post
 		$this->title = $c->encrypt($this->title, $key);
 		$this->content = $c->encrypt($this->content, $key);
 		
+		$this->key = sha1($key);
+		
 		$this->isCipher = true;
 	}
 	
 	/**
-	 * @todo
+	 * Send post to server
 	 */
-	public function post()
+	public function send()
 	{
-		
+		if (!$this->isCipher)
+		{
+			throw new Exception("Hey, did you encrypt the post?");
+		}
+		$db = Database::Get();
+		if (!$this->id)
+		{
+			// @todo Change hardcoded algorithm and mode
+			$db->query("INSERT INTO `pl_posts` (`title`,`content`,`time`,`weather`,`location`,`ip`,`key`,`hint`,`algorithm`,`mode`) VALUES (?,?,?,?,?,?,?,?,'aes','ecb')",array($this->title,$this->content,$this->time,$this->weather,$this->location,$this->ip,$this->key,$this->hint));
+			return $db->lastInsertId();
+		}
+		else
+		{
+			// Edit post
+			$db->query("UPDATE `pl_posts` SET `title` = ?, `content` = ?, `time` = ?, `weather` = ?, `location` = ?, `key` = ?, `hint` = ? WHERE `id` = {$this->id}", array($this->title,$this->content,$this->time,$this->weather,$this->location,$this->key,$this->hint));
+			return $this->id;
+		}
 	}
 	
 }

@@ -1,0 +1,31 @@
+body
+{
+	color: #0F0;
+	font-family: Monaco, Courier New, Courier;
+	font-size: 12px;
+	background-color: #000;
+}
+
+table td
+{
+	border: 1px solid #0F0;
+	padding: 2px;
+}
+
+table thead
+{
+	background-color: #0F0;
+	color: #000;
+}
+
+a
+{
+	color: #F00;
+	text-decoration: none;
+}
+
+a:hover
+{
+	color: #000;
+	background-color: #F00;
+}

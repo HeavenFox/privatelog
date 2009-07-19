@@ -12,10 +12,19 @@ body
 	font: 12px Tahoma, Verdana, sans-serif;
 }
 
-div.error {
+.error
+{
 	color: #200;
 	border: 1px solid #d77;
 	background: #fcc;
+	padding: 2px;
+}
+
+.message
+{
+	color: #E67300;
+	border: 1px solid #ff8000;
+	background: #ff0;
 	padding: 2px;
 }
 
