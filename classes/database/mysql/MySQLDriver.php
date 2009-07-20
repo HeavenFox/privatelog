@@ -125,10 +125,10 @@ class MySQLDriver
 	 * Get all results
 	 * @return array
 	 */
-	public function fetchAll()
+	public function fetchAll($type = 'both')
 	{
 		$matrix = array();
-		while ( $r = $this->fetch_array() )
+		while ( $r = $this->fetch($type) )
 		{
 			$matrix[] = $r;
 		}
