@@ -16,7 +16,7 @@ case 'post':
 		$params['id'] = IO::Inc('id');
 		$params['title'] = IO::Inc('title');
 		$params['content'] = IO::Inc('content');
-		$params['time'] = IO::Inc('specifytime') ? mktime(IO::Inc('hour'),IO::Inc('minute'),IO::Inc('second'),IO::Inc('month'),IO::Inc('day'),IO::Inc('year')) : time();
+		$params['time'] = IO::Inc('hour') ? mktime(IO::Inc('hour'),IO::Inc('minute'),IO::Inc('second'),IO::Inc('month'),IO::Inc('day'),IO::Inc('year')) : time();
 		$params['weather'] = IO::Inc('weather');
 		$params['location'] = IO::Inc('location');
 		$params['ip'] = IO::GetIP();

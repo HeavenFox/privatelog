@@ -13,7 +13,7 @@ class Settings
 	
 	// User setting
 	static $User = array(
-		'username' => 'HeavenFox',
+		'username' => 'admin',
 		// SHA1ed password. d033e22ae348aeb5660fc2140aec35850c4da997 by default - admin being original text
 		'password' => 'd033e22ae348aeb5660fc2140aec35850c4da997'
 	);

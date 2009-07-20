@@ -5,7 +5,7 @@
  */
 class PostSet
 {
-	public $posts;
+	public $posts = array();
 	
 	public $prev = false;
 	public $next = false;
