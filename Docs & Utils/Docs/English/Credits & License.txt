@@ -1,0 +1,19 @@
+== THE CORE ==
+Programmed by HeavenFox
+URL http://www.heavenfox.org
+Licensed under GPL v3
+
+
+== THE TEMPLATE ==
+Images & CSS from WordPress iNove Theme
+Author NeoEase
+URL http://www.neoease.com/
+Licensed under GPL
+
+
+== THE ENCRYPTION SYSTEM ==
+Encryption using AES algorithm by Joan Daemen and Vincent Rijmen
+
+Included phpAES from Phillips Data, Inc.
+URL http://www.phpaes.com/
+Free for non-commercial use

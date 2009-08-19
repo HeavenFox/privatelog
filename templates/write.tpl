@@ -55,7 +55,7 @@ if (isset(Template::$Vars['post']))
 	?>
 <form method="post" action="index.php?act=write&do=post">
 <div id="leftsec">
-<h2>Title</h2> <input type="text" name="title" id="title" value="<?php echo $edit ? $title : ''; ?>"/>
+<h2>Title</h2> <input type="text" name="title" id="title" value="<?php echo $edit ? htmlspecialchars($title) : ''; ?>"/>
 <h2>Content</h2>
 <?php
 require_once ROOT. 'editor/fckeditor/fckeditor.php';
@@ -91,10 +91,10 @@ Now <a href="javascript:specifyTime()">(Specify a time)</a></span>
 </div>
 <div id="weather">
 <h2>Weather</h2>
-<input type="text" name="weather" value="<?php echo $edit ? $weather : ''; ?>" />
+<input type="text" name="weather" value="<?php echo $edit ? htmlspecialchars($weather) : ''; ?>" />
 </div>
 <div id="location">
-<h2>Location</h2> <input type="text" name="location" value="<?php echo $edit ? $location : ''; ?>"/>
+<h2>Location</h2> <input type="text" name="location" value="<?php echo $edit ? htmlspecialchars($location) : ''; ?>"/>
 </div>
 <div id="key">
 <h2>Key</h2>
