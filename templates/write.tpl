@@ -21,6 +21,7 @@ if (isset(Template::$Vars['post']))
 <script type="text/javascript" src="scripts/jquery.js"></script>
 <script type="text/javascript" src="scripts/read.js"></script>
 <script type="text/javascript" src="scripts/write.js"></script>
+<script type="text/javascript" src="editor/ckeditor/ckeditor.js"></script>
 <title><?php echo Settings::$Site['name']; ?></title>
 </head>
 <body>
@@ -57,15 +58,7 @@ if (isset(Template::$Vars['post']))
 <div id="leftsec">
 <h2>Title</h2> <input type="text" name="title" id="title" value="<?php echo $edit ? htmlspecialchars($title) : ''; ?>"/>
 <h2>Content</h2>
-<?php
-require_once ROOT. 'editor/fckeditor/fckeditor.php';
-$editor = new FCKeditor('content');
-$editor->BasePath = 'editor/fckeditor/';
-$editor->ToolbarSet = 'BlogPost';
-$editor->Height = 500;
-$editor->Value = $edit ? $content : '';
-$editor->Create();
-?>
+<textarea name="content"></textarea>
 </div>
 <div id="rightsec">
 <div id="time">
@@ -113,6 +106,15 @@ echo $edit ? "<input type='hidden' name='id' value='{$id}' />" : '';
 </form>
 	<div class="clear"></div>
 </div>
+<script type="text/javascript">
+CKEDITOR.replace('content',
+{
+	toolbar: 
+[
+	['Source'],['PasteText','PasteWord'],['Bold','Italic','Underline','StrikeThrough','-','Subscript','Superscript','-','RemoveFormat'],['OrderedList','UnorderedList','-','Link','Unlink','-','Image','Flash','Table','Rule','Smiley','SpecialChar']
+]
+});
+</script>
 <div id="footer">
 	<p><a href="index.php?act=read">Read</a> -
 	Write -
