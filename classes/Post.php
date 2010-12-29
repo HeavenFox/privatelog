@@ -8,6 +8,9 @@ class Post
 	public $location;
 	public $ip;
 	public $time;
+	public $algorithm;
+	public $mode;
+	public $iv;
 	
 	public $key;
 	public $hint;
@@ -39,6 +42,9 @@ class Post
 		$this->key = $params['key'];
 		$this->hint = $params['hint'];
 		$this->ip = $params['ip'];
+		$this->algorithm = $params['algorithm'];
+		$this->mode = $params['mode'];
+		$this->iv = $params['iv'];
 		
 		$this->isCipher = $isCipher;
 	}
@@ -97,16 +103,20 @@ class Post
 		return $html;
 	}
 	
-	/**
-	 * @todo
-	 */
 	public function encrypt($key)
 	{
 		if ($this->isCipher)
 		{
 			return;
 		}
-		$c = Crypt::Get();
+		
+		$c = Crypt::Get($this->algorithm, $this->mode);
+		
+		$iv = null;
+		if ($c->ivRequired())
+		{
+			$iv = $c->getIv();
+		}
 		
 		$this->title = $c->encrypt($this->title, $key);
 		$this->content = $c->encrypt($this->content, $key);
@@ -128,14 +138,13 @@ class Post
 		$db = Database::Get();
 		if (!$this->id)
 		{
-			// @todo Change hardcoded algorithm and mode
-			$db->query("INSERT INTO `pl_posts` (`title`,`content`,`time`,`weather`,`location`,`ip`,`key`,`hint`,`algorithm`,`mode`) VALUES (?,?,?,?,?,?,?,?,'aes','ecb')",array($this->title,$this->content,$this->time,$this->weather,$this->location,$this->ip,$this->key,$this->hint));
+			$db->query("INSERT INTO `pl_posts` (`title`,`content`,`time`,`weather`,`location`,`ip`,`key`,`hint`,`algorithm`,`mode`) VALUES (?,?,?,?,?,?,?,?,?,?)",array($this->title,$this->content,$this->time,$this->weather,$this->location,$this->ip,$this->key,$this->hint,$this->algorithm,$this->mode));
 			return $db->lastInsertId();
 		}
 		else
 		{
 			// Edit post
-			$db->query("UPDATE `pl_posts` SET `title` = ?, `content` = ?, `time` = ?, `weather` = ?, `location` = ?, `key` = ?, `hint` = ? WHERE `id` = {$this->id}", array($this->title,$this->content,$this->time,$this->weather,$this->location,$this->key,$this->hint));
+			$db->query("UPDATE `pl_posts` SET `title` = ?, `content` = ?, `time` = ?, `weather` = ?, `location` = ?, `key` = ?, `hint` = ? `algorithm` = ?, `mode` = ? WHERE `id` = {$this->id}", array($this->title,$this->content,$this->time,$this->weather,$this->location,$this->key,$this->hint,$this->algorithm,$this->mode));
 			return $this->id;
 		}
 	}

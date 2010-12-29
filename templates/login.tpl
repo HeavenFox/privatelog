@@ -24,6 +24,19 @@ endif;
     <div id="inputform">
     <p>Username: <input name="username" type="text" size="15" /></p>
     <p>Password: <input name="password" type="password" size="15" /></p>
+<?php
+if (Settings::$Site['recaptcha_private'] && Settings::$Site['recaptcha_public'])
+{
+?>
+<script type="text/javascript">
+var RecaptchaOptions = {
+   theme : 'white'
+};
+</script>
+<?php
+	echo recaptcha_get_html(Settings::$Site['recaptcha_public']);
+}
+?>
     </div>
     <input name="submit" type="submit" value="Login" />
     </form>

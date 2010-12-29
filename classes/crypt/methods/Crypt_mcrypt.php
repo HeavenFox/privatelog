@@ -3,9 +3,19 @@ class Crypt_mcrypt
 {
 	public $mc;
 	
+	private $algorithm;
+	private $mode;
+	private $iv;
+	
+	
 	public function __construct()
 	{
 		$this->mc = mcrypt_module_open(MCRYPT_RIJNDAEL_128, '', MCRYPT_MODE_ECB, '');
+	}
+	
+	public function ivRequired()
+	{
+		return $this->mode != 'ecb';
 	}
 	
 	public function encrypt($content, $key)

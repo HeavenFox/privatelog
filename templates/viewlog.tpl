@@ -33,15 +33,15 @@ function confirmClick()
 <h2>LOGIN ATTEMPTS</h2>
 <table cellspacing="0">
     <thead>
-        <tr><td>ID</td><td>Username</td><td>Password</td><td>IP</td><td>Time</td></tr>
+        <tr><td>ID</td><td>Username</td><td>Password</td><td>Auth</td><td>IP</td><td>Time</td></tr>
     </thead>
     <tbody>
         <?php
         $db = Database::Get();
-        $db->query("SELECT * FROM `pl_loginattempt`");
+        $db->query("SELECT `id`,`username`,`password`,`success`,`ip`,`time` FROM `pl_loginattempt`");
         while ($r = $db->fetch('num'))
         {
-            echo "<tr><td>{$r[0]}</td><td>{$r[1]}</td><td>{$r[2]}</td><td><a href='http://wq.apnic.net/apnic-bin/whois.pl?searchtext={$r[3]}'>{$r[3]}</a></td><td>".date('r',$r[4])."</td></tr>";
+            echo "<tr><td>{$r[0]}</td><td>{$r[1]}</td><td>{$r[2]}</td><td>" . ($r[3] ? 'Success' : 'Failed') . "</td><td><a href='http://wq.apnic.net/apnic-bin/whois.pl?searchtext={$r[4]}'>{$r[4]}</a></td><td>".date('r',$r[5])."</td></tr>";
         }
         ?>
     </tbody>

@@ -1,0 +1,1 @@
+ALTER TABLE  `pl_loginattempt` ADD  `success` TINYINT NOT NULL DEFAULT  '0' AFTER  `password`;

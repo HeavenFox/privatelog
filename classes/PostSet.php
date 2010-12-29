@@ -11,6 +11,11 @@ class PostSet
 	public $next = false;
 	public $page;
 	
+	/**
+	 * Fetch Posts with certain conditions
+	 *
+	 * @param array $conditions Conditions of post.
+	 */
 	public function fetch($conditions)
 	{
 		$db = Database::Get();
