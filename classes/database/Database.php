@@ -13,7 +13,6 @@ class Database
         if (self::$connection == null)
         {
             self::$connection = self::CreateConnection(Settings::$DB);
-            self::$connection->connect();
         }
         return self::$connection;
     }
@@ -22,11 +21,8 @@ class Database
     {
         switch($params['driver'])
         {
-        case 'mysql':
-            require_once ROOT. 'classes/database/mysql/MySQLDriver.php';
-            
-            return new MySQLDriver($params);
-            
+		case 'mysql':
+			return new PDO('mysql:host='.$params['host'].';dbname='.$params['database'],$params['username'],$params['password']);
         default:
             throw new Exception('Invalid Database Driver!');
         }

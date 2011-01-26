@@ -38,11 +38,12 @@ else
 	if (IO::Inc('username', 'POST'))
 	{
 		$db = Database::Get();
-		$db->query('INSERT INTO `pl_loginattempt` (`username`,`password`,`success`,`ip`,`time`) VALUES (?,?,?,?,?)', array(Session::Get('username'),
-																					sha1(Session::Get('password')) == Settings::$User['password'] ? '***' : Session::Get('password'),
-																					$success ? 1 : 0,
-																					IO::GetIP(),
-																					time()));
+		$stmt = $db->prepare('INSERT INTO `pl_loginattempt` (`username`,`password`,`success`,`ip`,`time`) VALUES (?,?,?,?,?)');
+		$stmt->execute(array(Session::Get('username'),
+							sha1(Session::Get('password')) == Settings::$User['password'] ? '***' : Session::Get('password'),
+							$success ? 1 : 0,
+							IO::GetIP(),
+							time()));
 	}
 }
 ?>

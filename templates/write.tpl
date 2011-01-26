@@ -58,7 +58,9 @@ if (isset(Template::$Vars['post']))
 <div id="leftsec">
 <h2>Title</h2> <input type="text" name="title" id="title" value="<?php echo $edit ? htmlspecialchars($title) : ''; ?>"/>
 <h2>Content</h2>
-<textarea name="content"></textarea>
+<textarea name="content"><?php
+echo $content ? $content : ""
+?></textarea>
 </div>
 <div id="rightsec">
 <div id="time">

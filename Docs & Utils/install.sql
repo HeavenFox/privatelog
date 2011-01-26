@@ -1,30 +1,35 @@
-CREATE TABLE  `pl_posts` (
- `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
- `title` VARCHAR(500) NOT NULL,
- `content` LONGTEXT NOT NULL,
- `time` INT NOT NULL,
- `weather` VARCHAR(20),
- `location` VARCHAR(40),
- `ip` VARCHAR(20),
- `key` CHAR(40) NOT NULL,
- `hint` VARCHAR(160),
- `algorithm` VARCHAR(5) NOT NULL,
- `mode` CHAR(3) NOT NULL,
- `iv` VARCHAR(32)
-);
+CREATE TABLE IF NOT EXISTS `pl_adminlog` (
+  `id` int(11) NOT NULL auto_increment,
+  `action` varchar(200) NOT NULL,
+  `pid` int(11) NOT NULL,
+  `ip` varchar(20) DEFAULT NULL,
+  `time` int(11) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
-CREATE TABLE  `pl_adminlog` (
- `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
- `action` VARCHAR(200) NOT NULL,
- `pid` INT NOT NULL,
- `ip` VARCHAR(20),
- `time` INT NOT NULL
-);
+CREATE TABLE IF NOT EXISTS `pl_loginattempt` (
+  `id` int(11) NOT NULL auto_increment,
+  `username` varchar(25) NOT NULL,
+  `password` varchar(40) NOT NULL,
+  `success` tinyint(4) NOT NULL DEFAULT 0,
+  `ip` varchar(20) DEFAULT NULL,
+  `time` int(11) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
-CREATE TABLE  `pl_loginattempt` (
- `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
- `username` VARCHAR(25) NOT NULL,
- `password` VARCHAR(40) NOT NULL,
- `ip` VARCHAR(20),
- `time` INT NOT NULL
-);
+CREATE TABLE IF NOT EXISTS `pl_posts` (
+  `id` int(11) NOT NULL auto_increment,
+  `title` blob NOT NULL,
+  `content` longblob NOT NULL,
+  `time` int(11) NOT NULL,
+  `weather` varchar(20) DEFAULT NULL,
+  `location` varchar(40) DEFAULT NULL,
+  `ip` varchar(20) DEFAULT NULL,
+  `key` blob NOT NULL,
+  `salt` blob,
+  `hint` varchar(160) DEFAULT NULL,
+  `algorithm` varchar(5) NOT NULL,
+  `mode` char(3) NOT NULL,
+  `iv` tinyblob,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;

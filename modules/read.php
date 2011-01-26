@@ -2,8 +2,6 @@
 require_once ROOT. 'classes/Post.php';
 require_once ROOT. 'classes/PostSet.php';
 
-$db = Database::Get();
-
 $condition = array();
 
 $postsHTML = '';

@@ -40,12 +40,11 @@ require_once ROOT.'classes/Post.php';
 require_once ROOT.'classes/Crypt/Crypt.php';
 
 $db = Database::Get();
-$db->query("SELECT * FROM `{$table}` {$condition}");
+$result = $db->query("SELECT * FROM `{$table}` {$condition}");
 
 // Post Count
 $pc = 0;
-$m = $db->fetchAll();
-foreach ($m as $r)
+foreach ($result as $r)
 {
 	$id = $r[$fieldID];
 	$p = new Post;

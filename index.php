@@ -11,7 +11,6 @@ require_once 'init.php';
 require_once ROOT. 'settings.php';
 require_once ROOT. 'classes/Session.php';
 require_once ROOT. 'classes/IO.php';
-require_once ROOT. 'classes/Cookies.php';
 require_once ROOT. 'classes/Template.php';
 require_once ROOT. 'classes/crypt/Crypt.php';
 require_once ROOT. 'classes/database/Database.php';

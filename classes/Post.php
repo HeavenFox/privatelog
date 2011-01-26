@@ -13,21 +13,24 @@ class Post
 	public $iv;
 	
 	public $key;
+	public $salt;
 	public $hint;
 	
 	public $decryptable;
 	
 	public $isCipher = false;
 	
+	const DECRYPT_INDICATOR = 'SUCCESS';
+	
 	public function fetch($id)
 	{
 		$db = Database::Get();
 		
-		$db->query("SELECT * FROM `pl_posts` WHERE id = {$id}");
+		$result = $db->query("SELECT * FROM `pl_posts` WHERE id = {$id}");
 		
-		if ($db->rowCount())
+		if ($result->rowCount())
 		{
-			$this->fill($db->fetch(),true);
+			$this->fill($result->fetch(), true);
 		}
 	}
 	
@@ -40,6 +43,7 @@ class Post
 		$this->weather = $params['weather'];
 		$this->location = $params['location'];
 		$this->key = $params['key'];
+		$this->salt = $params['salt'];
 		$this->hint = $params['hint'];
 		$this->ip = $params['ip'];
 		$this->algorithm = $params['algorithm'];
@@ -49,23 +53,50 @@ class Post
 		$this->isCipher = $isCipher;
 	}
 	
-	public function decrypt($key)
+	public function encrypt($password)
+	{
+		if ($this->isCipher)
+		{
+			return false;
+		}
+		
+		$c = Crypt::Get($this->algorithm, $this->mode);
+		
+		// Generate IV if required
+		$this->iv = $c->generateIV();
+		
+		// Generate salt
+		$this->salt = Crypt::GenerateSalt(32);
+		
+		$this->title = $c->encrypt($this->title, $password, $this->salt);
+		$this->content = $c->encrypt($this->content, $password, $this->salt);
+		
+		$this->key = $c->encrypt(self::DECRYPT_INDICATOR, $password, $this->salt);
+		
+		$this->isCipher = true;
+		
+		return true;
+	}
+	
+	public function decrypt($password)
 	{
 		if (!$this->isCipher)
 		{
 			return false;
 		}
-		if (sha1($key) != $this->key)
+		
+		$c = Crypt::Get($this->algorithm, $this->mode);
+		$c->iv = $this->iv;
+		if ($c->decrypt($this->key, $password, $this->salt) != self::DECRYPT_INDICATOR)
 		{
 			return $this->decryptable = false;
 		}
 		
-		$c = Crypt::Get();
-		
-		$this->title = $c->decrypt($this->title, $key);
-		$this->content = $c->decrypt($this->content, $key);
+		$this->title = $c->decrypt($this->title, $password, $this->salt);
+		$this->content = $c->decrypt($this->content, $password, $this->salt);
 		$this->decryptable = true;
 		$this->isCipher = false;
+		
 		return true;
 	}
 	
@@ -85,7 +116,7 @@ class Post
 		{
 			$html .= "
 		<h2>{$this->title}</h2>
-		<small>Date: ".date('l, M n, Y g:i:s A', $this->time). "  Weather: {$this->weather}</small>
+		<small>Date: ".date(Settings::$Site['dateformat'], $this->time). "  Weather: {$this->weather}</small>
 		<div class='content'>{$this->content}</div>
 		<div class='meta'>Location:{$this->location} (IP:{$this->ip}) <a href='index.php?act=write&do=edit&id={$this->id}'>Edit</a></div>";
 		}
@@ -103,31 +134,12 @@ class Post
 		return $html;
 	}
 	
-	public function encrypt($key)
-	{
-		if ($this->isCipher)
-		{
-			return;
-		}
-		
-		$c = Crypt::Get($this->algorithm, $this->mode);
-		
-		$iv = null;
-		if ($c->ivRequired())
-		{
-			$iv = $c->getIv();
-		}
-		
-		$this->title = $c->encrypt($this->title, $key);
-		$this->content = $c->encrypt($this->content, $key);
-		
-		$this->key = sha1($key);
-		
-		$this->isCipher = true;
-	}
+	
 	
 	/**
 	 * Send post to server
+	 
+	 * @return int ID number of post just sent
 	 */
 	public function send()
 	{
@@ -138,13 +150,17 @@ class Post
 		$db = Database::Get();
 		if (!$this->id)
 		{
-			$db->query("INSERT INTO `pl_posts` (`title`,`content`,`time`,`weather`,`location`,`ip`,`key`,`hint`,`algorithm`,`mode`) VALUES (?,?,?,?,?,?,?,?,?,?)",array($this->title,$this->content,$this->time,$this->weather,$this->location,$this->ip,$this->key,$this->hint,$this->algorithm,$this->mode));
+			$stmt = $db->prepare("INSERT INTO `pl_posts` (`title`,`content`,`time`,`weather`,`location`,`ip`,`key`,`salt`,`hint`,`algorithm`,`mode`,`iv`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
+			$stmt->execute(array($this->title,$this->content,$this->time,$this->weather,$this->location,$this->ip,$this->key,$this->salt,$this->hint,$this->algorithm,$this->mode,$this->iv));
+			
 			return $db->lastInsertId();
 		}
 		else
 		{
 			// Edit post
-			$db->query("UPDATE `pl_posts` SET `title` = ?, `content` = ?, `time` = ?, `weather` = ?, `location` = ?, `key` = ?, `hint` = ? `algorithm` = ?, `mode` = ? WHERE `id` = {$this->id}", array($this->title,$this->content,$this->time,$this->weather,$this->location,$this->key,$this->hint,$this->algorithm,$this->mode));
+			$stmt = $db->prepare("UPDATE `pl_posts` SET `title` = ?, `content` = ?, `time` = ?, `weather` = ?, `location` = ?, `key` = ?,`salt` = ?, `hint` = ?, `algorithm` = ?, `mode` = ?, `iv` = ? WHERE `id` = {$this->id}");
+			$stmt->execute(array($this->title,$this->content,$this->time,$this->weather,$this->location,$this->key,$this->salt,$this->hint,$this->algorithm,$this->mode,$this->iv));
+			
 			return $this->id;
 		}
 	}

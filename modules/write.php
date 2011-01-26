@@ -21,6 +21,8 @@ case 'post':
 		$params['location'] = IO::Inc('location');
 		$params['ip'] = IO::GetIP();
 		$params['hint'] = IO::Inc('hint');
+		$params['algorithm'] = Settings::$Security['algorithm'];
+		$params['mode'] = Settings::$Security['mode'];
 		$post->fill($params ,false);
 		// Get a decrypted copy
 		$original = clone $post;
@@ -51,7 +53,8 @@ case 'post':
 		if ($params['id'])
 		{
 			$db = Database::Get();
-			$db->query("INSERT INTO `pl_adminlog` VALUES (NULL,?,{$pid},?,?)",array('Edited Post',IO::GetIP(),time()));
+			$st = $db->prepare("INSERT INTO `pl_adminlog` VALUES (NULL,?,{$pid},?,?)");
+			$st->execute(array('Edited Post',IO::GetIP(),time()));
 		}
 	}
 	break;

@@ -42,8 +42,7 @@ class PostSet
 			}
 			
 			// Check if other pages exist
-			$db->query('SELECT COUNT(*) FROM `pl_posts`'. ($attr == '' ? '' : ' WHERE'). $attr);
-			$count = $db->fetch();
+			$count = $db->query('SELECT COUNT(*) FROM `pl_posts`'. ($attr == '' ? '' : ' WHERE'). $attr)->fetch();
 			$count = intval($count[0]);
 			if ($count > $page * Settings::$Site['entries'])
 			{
@@ -59,9 +58,7 @@ class PostSet
 			$query .= ' LIMIT '.($page-1)*Settings::$Site['entries'].','.Settings::$Site['entries'];
 		}
 		
-		$db->query($query);
-		
-		while ($entry = $db->fetch('assoc'))
+		foreach ($db->query($query) as $entry)
 		{
 			$postObj = new Post;
 			$postObj->fill($entry, true);
