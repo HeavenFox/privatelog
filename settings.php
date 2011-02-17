@@ -6,8 +6,9 @@ class Settings
 		'driver' => 'mysql',
 		'host' => 'localhost',
 		'username' => 'root',
-		'password' => 'zhujingsi',
+		'password' => '',
 		'database' => 'privatelog',
+		// deprecated
 		'prefix' => 'pl_'
 	);
 	
@@ -41,7 +42,7 @@ class Settings
 		'recaptcha_public' => '',
 		'recaptcha_private' => '',
 		// Date/Time Format as php.net
-		'dateformat' => 'l, M n, Y g:i:s A'
+		'dateformat' => 'l, M j, Y g:i:s A'
 	);
 }
 ?>
