@@ -16,8 +16,8 @@ class Settings
 	// User setting
 	static $User = array(
 		'username' => 'admin',
-		// SHA1-hashed password. d033e22ae348aeb5660fc2140aec35850c4da997 by default - admin being original text
-		'password' => 'd033e22ae348aeb5660fc2140aec35850c4da997'
+		// SHA1-hashed password. 0925e15d0ae6af196e6295923d76af02b4a3420f by default - admin being original text
+		'password' => '0925e15d0ae6af196e6295923d76af02b4a3420f'
 	);
 	
 	// Security setting

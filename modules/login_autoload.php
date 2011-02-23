@@ -27,7 +27,7 @@ else
 	
 	$success = true;
 	
-	if (Session::Get('username') != Settings::$User['username'] || sha1(Session::Get('password')) != Settings::$User['password'] || !$captcha)
+	if (Session::Get('username') != Settings::$User['username'] || sha1(md5(Session::Get('password'),true)) != Settings::$User['password'] || !$captcha)
 	{
 		$act = 'login';
 		Template::$Vars['error'] = 'Invalid Login.';
@@ -40,7 +40,7 @@ else
 		$db = Database::Get();
 		$stmt = $db->prepare('INSERT INTO `pl_loginattempt` (`username`,`password`,`success`,`ip`,`time`) VALUES (?,?,?,?,?)');
 		$stmt->execute(array(Session::Get('username'),
-							sha1(Session::Get('password')) == Settings::$User['password'] ? '***' : Session::Get('password'),
+							sha1(md5(Session::Get('password'),true)) == Settings::$User['password'] ? '***' : Session::Get('password'),
 							$success ? 1 : 0,
 							IO::GetIP(),
 							time()));
