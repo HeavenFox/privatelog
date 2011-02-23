@@ -18,7 +18,6 @@ case 'decrypt':
 		echo $toDecrypt->generateContent();
 	}
 	die();
-	break;
 // Ajax doesn't seem beautiful
 /*
 case 'page':

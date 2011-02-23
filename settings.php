@@ -3,7 +3,8 @@ class Settings
 {
 	// DB settings
 	static $DB = array(
-		'driver' => 'mysql',
+		// Database Driver. If your host supports PDO and has enabled its MySQL module, set to pdo_mysql. Otherwise, you can use mysqli
+		'driver' => 'mysqli',
 		'host' => 'localhost',
 		'username' => 'root',
 		'password' => '',

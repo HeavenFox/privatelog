@@ -21,8 +21,7 @@ function confirmClick()
     <tbody>
         <?php
         $db = Database::Get();
-        $db->query("SELECT * FROM `pl_adminlog`");
-        while ($r = $db->fetch('num'))
+        foreach ($db->query("SELECT * FROM `pl_adminlog`") as $r)
         {
             echo "<tr><td>{$r[0]}</td><td>{$r[1]}</td><td>{$r[2]}</td><td><a href='http://wq.apnic.net/apnic-bin/whois.pl?searchtext={$r[3]}'>{$r[3]}</a></td><td>".date('r',$r[4])."</td></tr>";
         }
@@ -38,8 +37,7 @@ function confirmClick()
     <tbody>
         <?php
         $db = Database::Get();
-        $db->query("SELECT `id`,`username`,`password`,`success`,`ip`,`time` FROM `pl_loginattempt`");
-        while ($r = $db->fetch('num'))
+        foreach ($db->query("SELECT `id`,`username`,`password`,`success`,`ip`,`time` FROM `pl_loginattempt`") as $r)
         {
             echo "<tr><td>{$r[0]}</td><td>{$r[1]}</td><td>{$r[2]}</td><td>" . ($r[3] ? 'Success' : 'Failed') . "</td><td><a href='http://wq.apnic.net/apnic-bin/whois.pl?searchtext={$r[4]}'>{$r[4]}</a></td><td>".date('r',$r[5])."</td></tr>";
         }
