@@ -19,16 +19,21 @@ class Database
     
     private static function CreateConnection($params)
     {
+    	$obj = null;
         switch($params['driver'])
         {
 		case 'pdo_mysql':
-			return new PDO('mysql:host='.$params['host'].';dbname='.$params['database'],$params['username'],$params['password']);
+			$obj = new PDO('mysql:host='.$params['host'].';dbname='.$params['database'],$params['username'],$params['password']);
+			break;
 		case 'mysqli':
 			require ROOT. 'classes/database/mysqli/MySQLiObject.php';
-			return new MySQLiObject('mysql:host='.$params['host'].';dbname='.$params['database'],$params['username'],$params['password']);
+			$obj = new MySQLiObject('mysql:host='.$params['host'].';dbname='.$params['database'],$params['username'],$params['password']);
+			break;
         default:
             throw new Exception('Invalid Database Driver!');
         }
+        $obj->exec("SET NAMES 'utf8'");
+        return $obj;
     }
 }
 ?>

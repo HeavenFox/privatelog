@@ -1,16 +1,33 @@
+<html><head>
 <?php
 // Enter plain password here
 $PASSWORD = 'admin';
-echo 'PrivateLog v1 to v2 Upgrader<br />';
-echo 'Assuming AES & ECB which is default<br />';
+// Per page limitation
+$LIMIT = 15;
 require 'init.php';
 require 'settings.php';
 require ROOT . 'classes/database/Database.php';
 require ROOT . 'classes/crypt/Crypt.php';
 $conn = Database::Get();
 
-$result = $conn->prepare('SELECT id, title, content FROM `pl_posts` WHERE `key` = ?');
-$result->execute(array(sha1($PASSWORD)));
+
+$begin = isset($_REQUEST['begin']) ? intval($_REQUEST['begin']) : 0;
+
+$result = $conn->query('SELECT id, title, content FROM `pl_posts` WHERE `key` = \''.sha1($PASSWORD)."' LIMIT 0,{$LIMIT}");
+
+$rowCount = $result->rowCount();
+if ($rowCount > 0)
+{
+	echo '<meta http-equiv="refresh" content="3" />';
+}
+?>
+</head><body>
+<?php
+echo 'PrivateLog v1 to v2 Upgrader<br />';
+echo 'Assuming AES & ECB which is default<br />';
+echo 'Found '.$rowCount.' entries<br />';
+
+
 require ROOT . 'classes/Post.php';
 $mc = mcrypt_module_open(MCRYPT_RIJNDAEL_128, '', MCRYPT_MODE_ECB, '');
 mcrypt_generic_init($mc, md5($PASSWORD,true),'');
@@ -27,7 +44,12 @@ foreach ($result as $postData)
 	$post->send();
 	echo 'Post '.$postData['id'].' solved<br />';
 }
+if ($rowCount > 0)
+{
+	echo 'You will be redirected. <a href="upgrade_v1_to_v2.php">Continue instantly</a>';
+}
 mcrypt_generic_deinit($mc);
 mcrypt_module_close($mc);
 
 ?>
+</body></html>
